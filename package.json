@@ -15,9 +15,20 @@
   },
 
   "dependencies": {
-    "hubot": ">=2.4.7",
-    "hubot-scripts": ">= 2.4.1",
-    "optparse": "1.0.3"
+    "hubot": "git://github.com/github/hubot.git",
+    "hubot-scripts": "git://github.com/github/hubot-scripts.git",
+    "optparse": "1.0.3",
+    "hubot-gtalk": ">= 2.0.1",
+    "hubot-skype": "git://github.com/netpro2k/hubot-skype.git",
+    "hubot-twitter": ">= 2.0.4",
+    "hubot-facebook": ">= 0.1.0",
+    "nodepie": ">= 0.6.1",
+    "jsdom": ">= 0.6.0",
+    "yelp": ">= 0.1.1",
+    "oauth": ">= 0.9.10",
+    "twitter": ">= 0.1.18",
+    "facebook-search": ">= 0.1.1",
+    "node-foursquare": ">= 0.2.0"
   },
 
   "engines": {

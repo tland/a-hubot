@@ -10,19 +10,54 @@
 #   hubot holman is an ego surfer
 #   hubot holman is not an ego surfer
 
+Util = require 'util'
+
 module.exports = (robot) ->
 
   getAmbiguousUserText = (users) ->
     "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
 
-  robot.respond /who is @?([\w .\-]+)\?*$/i, (msg) ->
-    joiner = ', '
+  robot.respond /show me @?([\w .\-]+)'s profile$/i, (msg) ->
     name = msg.match[1].trim()
 
-    if name is "you"
-      msg.send "Who ain't I?"
-    else if name is robot.name
-      msg.send "The best."
+    users = robot.brain.usersForFuzzyName(name)
+    if users.length is 1
+      user = users[0]
+
+      strings = []
+
+      strings.push "\nHere is #{user.name}'s profile:\n"
+      strings.push JSON.stringify(user) + "\n"
+
+      msg.send strings.join "\n"
+
+  robot.respond /show conversation with @?([\w .\-]+)\?*$/i, (msg) ->
+    name = msg.match[1].trim()
+
+    users = robot.brain.usersForFuzzyName(name)
+    if users.length is 1
+      user = users[0]
+
+      strings = []
+
+      conversation = robot.brain.volatile_data.conversations[user.id]
+
+      if conversation
+
+        strings = []
+
+        strings.push "\nHere is the newest conversation with #{user.name}:\n"
+        #strings.push JSON.stringify(conversation) + "\n"
+        strings.push Util.inspect(conversation) + "\n"
+
+        msg.send strings.join "\n"
+
+  robot.respond /who (is|are) @?([\w .\-]+)\?*$/i, (msg) ->
+    joiner = ', '
+    name = msg.match[2].trim()
+
+    if name is "you" or name is robot.name
+      msg.send "The best ;)"
     else
       users = robot.brain.usersForFuzzyName(name)
       if users.length is 1
